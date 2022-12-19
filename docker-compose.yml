@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  reverse-proxy:
+    image: traefik:v2.9
+    command: --api.insecure=true --providers.docker
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+  aqd-server:
+    image: geopython/pygeoapi:latest
+    volumes:
+      - ./aqd/config.yml:/pygeoapi/local.config.yml
+      - ./aqd/data:/pygeoapi/data
+    expose:
+      - "80"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.aqd-server.rule=Host(`aqd.docker.localhost`)"
+  hydrography-server:
+    image: geopython/pygeoapi:latest
+    volumes:
+      - ./hydrography/config.yml:/pygeoapi/local.config.yml
+      - ./hydrography/data:/pygeoapi/data
+    expose:
+      - "80"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.hydrography-server.rule=Host(`hydrography.docker.localhost`)"
+
+
