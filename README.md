@@ -7,20 +7,20 @@ Technologies used:
 
 Docker and Docker Compose are used for orchestration.
 
-The `docker-compose.yml` file 
 # Getting started
 1. Run the initialization script
 
-    ```bash
+    ```sh
     $ chmod +x init.sh
     $ ./init.sh
     ```
 
-    This will generate the `logs` folder and the `acme.json` file that Traefik will use to store generated LetsEncrypt certificates
+    This will generate the `logs` folder and the `acme.json` file that Traefik will use to store generated LetsEncrypt certificates.
 
 2. Set the LetsEncrypt registration email into the `traefik.yml` file
 
     ```yml
+    # file: traefik.yml
     certificatesResolvers:
         letsEncryptResolver:
             # Enable ACME (Let's Encrypt): automatic SSL.
@@ -48,10 +48,12 @@ The `docker-compose.yml` file
     Example:
     
     ```yml
+    # file: hydrography/config.yml
     server:
         url: https://labgis.di.unisa.it/hydrography
     ```
 5. Check the `traefik_dynamic.yml` dynamic configuration file:
+
     Some traefik options (like the Dashboard [api router](https://doc.traefik.io/traefik/operations/api/#configuration)
     and the [BasicAuth](https://doc.traefik.io/traefik/middlewares/http/basicauth/) middleware) must be configured with traefik dynamic configuration.
     
@@ -60,7 +62,7 @@ The `docker-compose.yml` file
     1. Check the `http.routers.api.rule` `Host` rule points to the correct domain. Change it if necessary.
     
         Example:
-    
+        # file: traefik_dynamic.yml
         ```yml
         http:
           routers:
@@ -73,14 +75,15 @@ The `docker-compose.yml` file
 
     2. Check the `http.middlewares.auth.basicAuth.users` list:
     
-        The default user is `admin:labgis`. Use [htpasswd](https://httpd.apache.org/docs/2.4/programs/htpasswd.html) to generate password:
+        The default user is `admin:labgis`. 
+        Use [htpasswd](https://httpd.apache.org/docs/2.4/programs/htpasswd.html) to generate new users:
         
-        ```bash
+        ```sh
         $ htpasswd -nb user your_secure_password
         // output: user:$apr1$ClkgSq7N$MxFbvzUIKChlTiTEYpNRj1
         ```
 6. Run Docker Compose
 
-    ```bash
+    ```sh
     $ docker-compose up
     ```
