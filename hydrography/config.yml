@@ -31,14 +31,14 @@ server:
     bind:
         host: 0.0.0.0
         port: 80
-    url: http://hydrography.docker.localhost
+    url: https://labgis.di.unisa.it/oapi/hydrography
     mimetype: application/json; charset=UTF-8
     encoding: utf-8
     gzip: false
     languages:
         # First language is the default language
         - en-US
-        - fr-CA
+        - it-IT
     cors: true
     pretty_print: true
     limit: 10
@@ -56,24 +56,25 @@ server:
 
 logging:
     level: ERROR
-    #logfile: /tmp/pygeoapi.log
-
+    logfile: /var/log/pygeoapi/hydrography.log
 metadata:
     identification:
         title:
-            en: pygeoapi default instance
-            fr: instance par défaut de pygeoapi
+            en: ISPRA Hydrography Data
+            it: ISPRA Idrografia
         description:
-            en: pygeoapi provides an API to geospatial data
-            fr: pygeoapi fournit une API aux données géospatiales
+            en: INSPIRE OGC API Download Service 
+            it: INSPIRE OGC API Download Service
         keywords:
             en:
                 - geospatial
                 - data
+                - ogc
                 - api
             fr:
-                - géospatiale
-                - données
+                - geospaziale
+                - dati
+                - ogc
                 - api
         keywords_type: theme
         terms_of_service: https://creativecommons.org/licenses/by/4.0/

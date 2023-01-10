@@ -3,31 +3,44 @@ version: "3"
 services:
   reverse-proxy:
     image: traefik:v2.9
-    command: --api.insecure=true --providers.docker
     ports:
       - "80:80"
       - "8080:8080"
+      - "443:443"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "./traefik.yml:/etc/traefik/traefik.yml"
+      - "./traefik_dynamic.yml:/etc/traefik/traefik_dynamic.yml"
+      - "./acme.json:/acme.json"
+      - "./logs:/var/log/traefik"
   aqd-server:
-    image: geopython/pygeoapi:latest
+    image: geopython/pygeoapi:0.13.0
     volumes:
       - ./aqd/config.yml:/pygeoapi/local.config.yml
       - ./aqd/data:/pygeoapi/data
+      - "./logs:/var/log/pygeoapi"
     expose:
       - "80"
+    environment:
+     - SCRIPT_NAME=/oapi/aqd
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.aqd-server.rule=Host(`aqd.docker.localhost`)"
+      - "traefik.http.routers.aqd.rule=Host(`labgis.di.unisa.it`) && PathPrefix(`/oapi/aqd`)"
+      - "traefik.http.routers.aqd.tls=true"
+      - "traefik.http.routers.aqd.tls.certresolver=letsEncryptResolver"
   hydrography-server:
-    image: geopython/pygeoapi:latest
+    image: geopython/pygeoapi:0.13.0
     volumes:
       - ./hydrography/config.yml:/pygeoapi/local.config.yml
       - ./hydrography/data:/pygeoapi/data
+      - "./logs:/var/log/pygeoapi"
     expose:
       - "80"
+    environment:
+     - SCRIPT_NAME=/oapi/hydrography
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.hydrography-server.rule=Host(`hydrography.docker.localhost`)"
-
-
+      - "traefik.http.routers.hydrography.rule=Host(`labgis.di.unisa.it`) && PathPrefix(`/oapi/hydrography`)"
+      - "traefik.http.routers.hydrography.tls=true"
+      - "traefik.http.routers.hydrography.tls.certresolver=letsEncryptResolver"
+    
