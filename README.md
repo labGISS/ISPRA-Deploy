@@ -37,6 +37,7 @@ Docker and Docker Compose are used for orchestration.
     Example:
     
     ```yml
+    # file: docker-compose.yml
     # pygeoapi instance configuration
     labels:
       - "traefik.enable=true"
@@ -59,11 +60,11 @@ Docker and Docker Compose are used for orchestration.
     
     These options are provided by the `traefik_dynamic.yml` file.
     
-    1. Check the `http.routers.api.rule` `Host` rule points to the correct domain. Change it if necessary.
+    - Check the `http.routers.api.rule` `Host` rule points to the correct domain. Change it if necessary.
     
         Example:
-        # file: traefik_dynamic.yml
         ```yml
+        # file: traefik_dynamic.yml
         http:
           routers:
             # Overrides the default 'api' router 
@@ -73,14 +74,15 @@ Docker and Docker Compose are used for orchestration.
               rule: Host(`monitor.labgis.di.unisa.it`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
         ```
 
-    2. Check the `http.middlewares.auth.basicAuth.users` list:
+    - Check the users list at `http.middlewares.auth.basicAuth.users`:
     
         The default user is `admin:labgis`. 
+
         Use [htpasswd](https://httpd.apache.org/docs/2.4/programs/htpasswd.html) to generate new users:
         
         ```sh
         $ htpasswd -nb user your_secure_password
-        // output: user:$apr1$ClkgSq7N$MxFbvzUIKChlTiTEYpNRj1
+        user:$apr1$ClkgSq7N$MxFbvzUIKChlTiTEYpNRj1
         ```
 6. Run Docker Compose
 
