@@ -1,5 +1,5 @@
 # ISPRA Demo Server
-This demonstration server shows how to set up a Download service based on the [OGC API-Features](https://ogcapi.ogc.org/features/) standard, following the INSPIRE [guidelines](https://github.com/INSPIRE-MIF/gp-ogc-api-features/blob/master/spec/oapif-inspire-download.md).
+This demonstration server shows how to set up a Download service based on the [OGC API-Features](https://ogcapi.ogc.org/features/) standards, following the INSPIRE [guidelines](https://github.com/INSPIRE-MIF/gp-ogc-api-features/blob/master/spec/oapif-inspire-download.md).
 
 Technologies used:
 - [pygeoapi](https://pygeoapi.io/) to setup multiple OGC API Complilant server instances
@@ -74,9 +74,9 @@ Docker and Docker Compose are used for orchestration.
               rule: Host(`monitor.labgis.di.unisa.it`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
         ```
 
-    - Check the users list at `http.middlewares.auth.basicAuth.users`:
+    - Check the users list at `http.middlewares.auth.basicAuth.users`
     
-        The default user is `admin:labgis`. 
+        This users will be allowed to login into the Traefik Dashboard page. The default user is `admin:labgis`. 
 
         Use [htpasswd](https://httpd.apache.org/docs/2.4/programs/htpasswd.html) to generate new users:
         
@@ -84,8 +84,17 @@ Docker and Docker Compose are used for orchestration.
         $ htpasswd -nb user your_secure_password
         user:$apr1$ClkgSq7N$MxFbvzUIKChlTiTEYpNRj1
         ```
+        
+        Add the output to the users list.
+
 6. Run Docker Compose
 
     ```sh
     $ docker-compose up
     ```
+
+Using the default configuration, the following urls should be available:
+
+- [https://monitor.labgis.di.unisa.it/dashboard/](https://monitor.labgis.di.unisa.it/dashboard/): Traefik Dashboard monitor
+- [https://labgis.di.unisa.it/oapi/aqd](https://labgis.di.unisa.it/oapi/aqd/): ISPRA Air Quality pygeoapi instance
+- [https://labgis.di.unisa.it/oapi/hydrography](https://labgis.di.unisa.it/oapi/hydrography/): ISPRA Hydrography pygeoapi instance

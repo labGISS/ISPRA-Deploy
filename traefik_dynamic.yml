@@ -5,7 +5,7 @@ http:
     api:
       # The rule matches http://example.com/api or http://example.com/dashboard
       # but does not match http://example.com/hello
-      rule: Host(`monitor.cclouds.duckdns.org`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
+      rule: Host(`monitor.labgis.di.unisa.it`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
       entrypoints:
         - web
         - websecure
