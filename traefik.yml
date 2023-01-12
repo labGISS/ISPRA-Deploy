@@ -16,7 +16,7 @@ certificatesResolvers:
       #
       # Required
       #
-      email: "test@example.com"
+      email: "pbattistoni@unisa.it"
 
       # File or key used for certificates storage.
       #
